@@ -1,19 +1,14 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>create_bringup</name>
+  <name>libcreate</name>
   <version>2.0.0</version>
-  <description>Launch and configuration files for common accessories when working with Create/Roomba platforms.</description>
+  <description>ROS2 wrapper for libcreate</description>
   <license>BSD</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-  <buildtool_depend>rosidl_default_generators</buildtool_depend>
 
-  <exec_depend>create_description</exec_depend>
-  <exec_depend>create_driver</exec_depend>
-  <exec_depend>joy</exec_depend>
-  <exec_depend>joy_teleop</exec_depend>
-  <exec_depend>rosidl_default_runtime</exec_depend>
+  <depend>boost</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

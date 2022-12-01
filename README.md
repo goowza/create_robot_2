@@ -1,103 +1,93 @@
 # create_robot
 
-[ROS](http://ros.org) driver for iRobot [Create 1 and 2](http://www.irobot.com/About-iRobot/STEM/Create-2.aspx).
+[ROS2](http://ros.org) driver for iRobot [Create 1 and 2](http://www.irobot.com/About-iRobot/STEM/Create-2.aspx).
 This package wraps the C++ library [libcreate][libcreate], which uses iRobot's [Open Interface Specification][oi_spec].
 
+This package was forked from the [create_robot](https://github.com/AutonomyLab/create_robot) from AutonomyLab. The objective is to make it work with ROS2.
+
 <!--[](* Documentation: TODO)-->
-* ROS wiki page: http://wiki.ros.org/create_robot
-* Support: [ROS Answers (tag: create_robot)](http://answers.ros.org/questions/scope:all/sort:activity-desc/tags:create_robot/page:1/)
-* Author: [Jacob Perron](http://jacobperron.ca) ([Autonomy Lab](http://autonomylab.org), [Simon Fraser University](http://www.sfu.ca))
 
 ## Build Status
 
-- ROS Kinetic ![](https://github.com/autonomylab/create_robot/workflows/Continuous%20Integration/badge.svg?branch=kinetic)
-- ROS Melodic ![](https://github.com/autonomylab/create_robot/workflows/Continuous%20Integration/badge.svg?branch=melodic)
-- ROS Foxy ![](https://github.com/autonomylab/create_robot/workflows/Continuous%20Integration/badge.svg?branch=foxy)
+It builds on ROS2 Humble but it doesn't work yet.
+<!-- - ROS2 Humble ![](https://github.com/autonomylab/create_robot/workflows/Continuous%20Integration/badge.svg?branch=kinetic) -->
 
 ## Supported Robots
 
 | Model     | Support    |
 |-----------|------------|
-| Create 1  |  Yes       |
-| Create 2  _(firmware >= 3.2.6)_ |  Yes       |
-| Roomba Original Series | No  |
-| Roomba 400 Series |  Yes  |
-| Roomba 500 Series |  Yes *  |
-| Roomba 600 Series |  Yes * |
-| Roomba 700 Series |  Yes +  |
-| Roomba 800 Series |  Yes + |
-| Roomba 900 Series |  No *  |
+| Create 1  |  Maybe *      |
+| Create 2  _(firmware >= 3.2.6)_ |  Maybe *      |
+| Roomba Original Series | Maybe * |
+| Roomba 400 Series |  Maybe * |
+| Roomba 500 Series |  Maybe *  |
+| Roomba 600 Series |  Hopefully |
+| Roomba 700 Series |  Maybe *  |
+| Roomba 800 Series |  Maybe * |
+| Roomba 900 Series |  Maybe *  |
 
-_+ Verified by third-party. Please note [Odometry Issue #28](https://github.com//create_robot/issues/32)_
-_* Not verified. Anyone who is able to verify that this driver works or not is encouraged to contact [Jacob](https://jacobperron.ca) with their findings or open an issue._
+_* I only have a roomba 600, if you want to try on other models knock yourself out and let me know how it goes :)_
+
 
 ## Features
 
 |  Feature          |  Status       |
 |-------------------|---------------|
-|  Odometry         | Available     |
-|  Safe mode        | Planned [#13](https://github.com/AutonomyLab/create_robot/issues/13) |
-|  Clean demo       | Planned [#14](https://github.com/AutonomyLab/create_robot/issues/14) |
-|  Dock demo        | Available     |
-|  Drive wheels     | N/A           |
-|  Drive (v,w)      | Available     |
-|  Brush motors     | Available     |
-|  LEDs             | Available     |
-|  Digit LEDs       | Available     |
-|  Sound            | Available     |
-|  Wheeldrop        | Available     |
-|  Bumpers          | Available     |
-|  Cliff sensor     | Planned [#22](https://github.com/AutonomyLab/create_robot/issues/22)      |
+|  Odometry         | Planned       |
+|  Safe mode        | Planned       |
+|  Clean demo       | Planned       |
+|  Dock demo        | Planned       |
+|  Drive wheels     | Planned       |
+|  Drive (v,w)      | Planned       |
+|  Brush motors     | Planned       |
+|  LEDs             | Planned       | 
+|  Digit LEDs       | N/A           |
+|  Sound            | Planned       |
+|  Wheeldrop        | Planned       |
+|  Bumpers          | Planned       |
+|  Cliff sensor     | Planned       |
 |  Dirt detect      | N/A           |
-|  Omni IR sensor   | Available     |
-|  Left IR sensor   | N/A           |
-|  Right IR sensor  | N/A           |
-|  Battery info     | Available     |
-|  Light sensors    | Available     |
+|  Omni IR sensor   | Planned ?     |
+|  Left IR sensor   | Planned ?     |
+|  Right IR sensor  | Planned ?     |
+|  Battery info     | Planned       |
+|  Light sensors    | Planned ?     |
 | **_Diagnostics_** |               |
-|  Corrupt packets  | Planned       |
-|  Physical tests   | Planned       |
-|  Overcurrent info | Planned       |
+|  Corrupt packets  | N/A           |
+|  Physical tests   | N/A           |
+|  Overcurrent info | N/A           |
 
 ## Install
 
 #### Prerequisites
 
 * Internet connection
-* [ROS](http://wiki.ros.org/ROS/Installation) _Indigo_ or _Jade_
-* Ubuntu packages: `python-rosdep`, `python-catkin-tools`
-
-``` bash
-$ sudo apt-get install python-rosdep python-catkin-tools
-```
+* [ROS2](https://docs.ros.org/en/humble/Installation.html) _Humble_
 
 #### Compiling
 
 1. Create a catkin workspace  
     ``` bash
     $ cd ~
-    $ mkdir -p create_ws/src  
-    $ cd create_ws  
-    $ catkin init  
+    $ mkdir -p ~/create_2_ws/src 
     ```
 
 2. Clone this repo  
     ``` bash
-    $ cd ~/create_ws/src
-    $ git clone https://github.com/autonomylab/create_robot.git
+    $ cd ~/create_2_ws/src
+    $ git clone git@github.com:goowza/create_robot_2.git
     ```
   
 3. Install dependencies  
     ``` bash
-    $ cd ~/create_ws
-    $ rosdep update  
-    $ rosdep install --from-paths src -i  
+    $ cd ~/create_2_ws
+    $ rosdep install -i --from-path src --rosdistro humble -y 
     ```
 
 4. Build  
     ``` bash
-    $ cd ~/create_ws
-    $ catkin build
+    $ cd ~/create_2_ws
+    $ colcon build
     ```
 #### USB Permissions
 5. In order to connect to Create over USB, ensure your user is in the dialout group
@@ -113,10 +103,10 @@ $ sudo apt-get install python-rosdep python-catkin-tools
 
 1. After compiling from source, don't forget to source your workspace:  
     ``` bash
-    $ source ~/create_ws/devel/setup.bash
+    $ . install/local_setup.bash
     ```
 
-2. Connect computer to Create's 7-pin serial port
+2. Connect computer to the robot 7-pin serial port
   - If using Create 1, ensure that nothing is connected to Create's DB-25 port
 
 3. Launch one of the existing launch files or adapt them to create your own.
@@ -125,17 +115,17 @@ $ sudo apt-get install python-rosdep python-catkin-tools
 
 For Create 2 (Roomba 600/700 series):
 ``` bash
-$ roslaunch create_bringup create_2.launch
+$ ros2 launch create_bringup create_2_launch.py
 ```
 
 For Create 1 (Roomba 500 series):
 ``` bash
-$ roslaunch create_bringup create_1.launch
+$ ros2 launch create_bringup create_1_launch.py
 ```
 
 For Roomba 400 series:
 ``` bash
-$ roslaunch create_bringup roomba_400.launch
+$ ros2 launch create_bringup roomba_400_launch.py
 ```
 
 #### Launch file arguments
@@ -146,7 +136,7 @@ $ roslaunch create_bringup roomba_400.launch
 For example, if you would like to disable the robot description and provide a custom configuration file:
 
 ```bash
-$ roslaunch create_bringup create_2.launch config:=/abs/path/to/config.yaml desc:=false
+$ ros2 launch create_bringup create_2_launch.py config:=/abs/path/to/config.yaml desc:=false
 ```
 
 ### Parameters
@@ -209,7 +199,7 @@ Topic       | Description   | Type
 
 ## Commanding your Create
 
-You can move the robot around by sending [geometry_msgs/Twist][twist] messages to the topic `cmd_vel`:
+If I can make this work, you will be able to move the robot around by sending [geometry_msgs/Twist][twist] messages to the topic `cmd_vel`:
 
 ```
 linear.x  (+)     Move forward (m/s)
@@ -226,24 +216,16 @@ angular.z (+)     Rotate counter-clockwise (rad/s)
 `create_bringup` comes with a launch file for teleoperating Create with a joystick.
 
 ``` bash
-$ roslaunch create_bringup joy_teleop.launch [joy_config:=xbox360]
+$ ros2 launch create_bringup joy_teleop_launch.py [joy_config:=xbox360]
 ```
 
 There exists configuration files for the [Xbox 360 wired controller](https://www.amazon.ca/Microsoft-Xbox-360-Wired-Controller/dp/B003ZSN600) and the [Logitech F710 controller](http://gaming.logitech.com/en-ca/product/f710-wireless-gamepad). You can adapt these files for your preferred joystick configuration.
 
 ## Contributions
 
-Contributing to the development and maintenance of _create\_robot_ is encouraged. Feel free to open issues or create pull requests on [GitHub](https://github.com/autonomylab/create_robot).
+Contributing to the development and maintenance of _create\_robot\_2_ is encouraged. Feel free to open issues or create pull requests on [GitHub](https://github.com/goowza/create_robot_2).
 
-### Contributors
 
-* [Michael Browne](http://brownem.engineer/)
-    - Confirms driver works with Roomba 700 and 800 series.
-* [Clyde McQueen](https://github.com/clydemcqueen)
-    - Added support for sound ([#37](https://github.com/AutonomyLab/create_robot/pull/37)).
-* [Ben Wolsieffer](https://github.com/lopsided98) 
-    - Added JointState publisher for wheels ([#26](https://github.com/AutonomyLab/create_robot/pull/26)).
-    - Added Create 1 description ([#27](https://github.com/AutonomyLab/create_robot/pull/27)).
 
 [libcreate]:  https://github.com/AutonomyLab/libcreate
 [oi_spec]:  https://www.adafruit.com/datasheets/create_2_Open_Interface_Spec.pdf
