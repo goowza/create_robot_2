@@ -5,8 +5,7 @@
   <version>2.0.0</version>
   <description>ROS2 wrapper for libcreate</description>
   <license>BSD</license>
-
-  <buildtool_depend>ament_cmake</buildtool_depend>
+  <maintainer email="stylosoftclick@gmail.com">Paul Meis</maintainer>
 
   <depend>boost</depend>
 

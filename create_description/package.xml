@@ -5,6 +5,7 @@
   <version>2.0.0</version>
   <description>Robot URDF descriptions for create_autonomy</description>
   <license>BSD</license>
+  <maintainer email="stylosoftclick@gmail.com">Paul Meis</maintainer>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>rosidl_default_generators</buildtool_depend>
