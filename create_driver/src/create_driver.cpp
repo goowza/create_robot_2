@@ -118,43 +118,44 @@ CreateDriver::CreateDriver(rclcpp::Node& nh)
   }
 
   // Setup subscribers
-  cmd_vel_sub_ = nh.create_subscription<geometry_msgs::msg::Twist>("cmd_vel", 1, std::bind(&CreateDriver::cmdVelCallback, this, _1));
-  debris_led_sub_ = nh.create_subscription<std_msgs::msg::Bool>("debris_led", 10, std::bind(&CreateDriver::debrisLEDCallback, this, _1));
-  spot_led_sub_ = nh.create_subscription<std_msgs::msg::Bool>("spot_led", 10, std::bind(&CreateDriver::spotLEDCallback, this, _1));
-  dock_led_sub_ = nh.create_subscription<std_msgs::msg::Bool>("dock_led", 10, std::bind(&CreateDriver::dockLEDCallback, this, _1));
-  check_led_sub_ = nh.create_subscription<std_msgs::msg::Bool>("check_led", 10, std::bind(&CreateDriver::checkLEDCallback, this, _1));
-  power_led_sub_ = nh.create_subscription<std_msgs::msg::UInt8MultiArray>("power_led", 10, std::bind(&CreateDriver::powerLEDCallback, this, _1));
-  set_ascii_sub_ = nh.create_subscription<std_msgs::msg::UInt8MultiArray>("set_ascii", 10, std::bind(&CreateDriver::setASCIICallback, this, _1));
-  dock_sub_ = nh.create_subscription<std_msgs::msg::Empty>("dock", 10, std::bind(&CreateDriver::dockCallback, this, _1));
-  undock_sub_ = nh.create_subscription<std_msgs::msg::Empty>("undock", 10, std::bind(&CreateDriver::undockCallback, this, _1));
-  define_song_sub_ = nh.create_subscription<create_msgs::msg::DefineSong>("define_song", 10, std::bind(&CreateDriver::defineSongCallback, this, _1));
-  play_song_sub_ = nh.create_subscription<create_msgs::msg::PlaySong>("play_song", 10, std::bind(&CreateDriver::playSongCallback, this, _1));
-  side_brush_motor_sub_ = nh.create_subscription<create_msgs::msg::MotorSetpoint>("side_brush_motor", 10, std::bind(&CreateDriver::sideBrushMotor, this, _1));
-  main_brush_motor_sub_ = nh.create_subscription<create_msgs::msg::MotorSetpoint>("main_brush_motor", 10, std::bind(&CreateDriver::mainBrushMotor, this, _1));
-  vacuum_motor_sub_ = nh.create_subscription<create_msgs::msg::MotorSetpoint>("vacuum_motor", 10, std::bind(&CreateDriver::vacuumBrushMotor, this, _1));
+  int x = 0;
+  cmd_vel_sub_          = nh_->create_subscription<geometry_msgs::msg::Twist>("cmd_vel", 1, std::bind(&CreateDriver::cmdVelCallback, this, _1));
+  debris_led_sub_       = nh_->create_subscription<std_msgs::msg::Bool>("debris_led", 10, std::bind(&CreateDriver::debrisLEDCallback, this, _1));
+  spot_led_sub_         = nh_->create_subscription<std_msgs::msg::Bool>("spot_led", 10, std::bind(&CreateDriver::spotLEDCallback, this, _1));
+  dock_led_sub_         = nh_->create_subscription<std_msgs::msg::Bool>("dock_led", 10, std::bind(&CreateDriver::dockLEDCallback, this, _1));
+  check_led_sub_        = nh_->create_subscription<std_msgs::msg::Bool>("check_led", 10, std::bind(&CreateDriver::checkLEDCallback, this, _1));
+  power_led_sub_        = nh_->create_subscription<std_msgs::msg::UInt8MultiArray>("power_led", 10, std::bind(&CreateDriver::powerLEDCallback, this, _1));
+  set_ascii_sub_        = nh_->create_subscription<std_msgs::msg::UInt8MultiArray>("set_ascii", 10, std::bind(&CreateDriver::setASCIICallback, this, _1));
+  dock_sub_             = nh_->create_subscription<std_msgs::msg::Empty>("dock", 10, std::bind(&CreateDriver::dockCallback, this, _1));
+  undock_sub_           = nh_->create_subscription<std_msgs::msg::Empty>("undock", 10, std::bind(&CreateDriver::undockCallback, this, _1));
+  define_song_sub_      = nh_->create_subscription<create_msgs::msg::DefineSong>("define_song", 10, std::bind(&CreateDriver::defineSongCallback, this, _1));
+  play_song_sub_        = nh_->create_subscription<create_msgs::msg::PlaySong>("play_song", 10, std::bind(&CreateDriver::playSongCallback, this, _1));
+  side_brush_motor_sub_ = nh_->create_subscription<create_msgs::msg::MotorSetpoint>("side_brush_motor", 10, std::bind(&CreateDriver::sideBrushMotor, this, _1));
+  main_brush_motor_sub_ = nh_->create_subscription<create_msgs::msg::MotorSetpoint>("main_brush_motor", 10, std::bind(&CreateDriver::mainBrushMotor, this, _1));
+  vacuum_motor_sub_     = nh_->create_subscription<create_msgs::msg::MotorSetpoint>("vacuum_motor", 10, std::bind(&CreateDriver::vacuumBrushMotor, this, _1));
 
   // Setup publishers
-  odom_pub_ = nh.create_publisher<nav_msgs::msg::Odometry>("odom", 30);
-  clean_btn_pub_ = nh.create_publisher<std_msgs::msg::Empty>("clean_button", 30);
-  day_btn_pub_ = nh.create_publisher<std_msgs::msg::Empty>("day_button", 30);
-  hour_btn_pub_ = nh.create_publisher<std_msgs::msg::Empty>("hour_button", 30);
-  min_btn_pub_ = nh.create_publisher<std_msgs::msg::Empty>("minute_button", 30);
-  dock_btn_pub_ = nh.create_publisher<std_msgs::msg::Empty>("dock_button", 30);
-  spot_btn_pub_ = nh.create_publisher<std_msgs::msg::Empty>("spot_button", 30);
-  voltage_pub_ = nh.create_publisher<std_msgs::msg::Float32>("battery/voltage", 30);
-  current_pub_ = nh.create_publisher<std_msgs::msg::Float32>("battery/current", 30);
-  charge_pub_ = nh.create_publisher<std_msgs::msg::Float32>("battery/charge", 30);
-  charge_ratio_pub_ = nh.create_publisher<std_msgs::msg::Float32>("battery/charge_ratio", 30);
-  capacity_pub_ = nh.create_publisher<std_msgs::msg::Float32>("battery/capacity", 30);
-  temperature_pub_ = nh.create_publisher<std_msgs::msg::Int16>("battery/temperature", 30);
-  charging_state_pub_ = nh.create_publisher<create_msgs::msg::ChargingState>("battery/charging_state", 30);
-  omni_char_pub_ = nh.create_publisher<std_msgs::msg::UInt16>("ir_omni", 30);
-  mode_pub_ = nh.create_publisher<create_msgs::msg::Mode>("mode", 30);
-  bumper_pub_ = nh.create_publisher<create_msgs::msg::Bumper>("bumper", 30);
-  wheeldrop_pub_ = nh.create_publisher<std_msgs::msg::Empty>("wheeldrop", 30);
-  wheel_joint_pub_ = nh.create_publisher<sensor_msgs::msg::JointState>("joint_states", 10);
+  odom_pub_           = nh_->create_publisher<nav_msgs::msg::Odometry>("odom", 30);
+  clean_btn_pub_      = nh_->create_publisher<std_msgs::msg::Empty>("clean_button", 30);
+  day_btn_pub_        = nh_->create_publisher<std_msgs::msg::Empty>("day_button", 30);
+  hour_btn_pub_       = nh_->create_publisher<std_msgs::msg::Empty>("hour_button", 30);
+  min_btn_pub_        = nh_->create_publisher<std_msgs::msg::Empty>("minute_button", 30);
+  dock_btn_pub_       = nh_->create_publisher<std_msgs::msg::Empty>("dock_button", 30);
+  spot_btn_pub_       = nh_->create_publisher<std_msgs::msg::Empty>("spot_button", 30);
+  voltage_pub_        = nh_->create_publisher<std_msgs::msg::Float32>("battery/voltage", 30);
+  current_pub_        = nh_->create_publisher<std_msgs::msg::Float32>("battery/current", 30);
+  charge_pub_         = nh_->create_publisher<std_msgs::msg::Float32>("battery/charge", 30);
+  charge_ratio_pub_   = nh_->create_publisher<std_msgs::msg::Float32>("battery/charge_ratio", 30);
+  capacity_pub_       = nh_->create_publisher<std_msgs::msg::Float32>("battery/capacity", 30);
+  temperature_pub_    = nh_->create_publisher<std_msgs::msg::Int16>("battery/temperature", 30);
+  charging_state_pub_ = nh_->create_publisher<create_msgs::msg::ChargingState>("battery/charging_state", 30);
+  omni_char_pub_      = nh_->create_publisher<std_msgs::msg::UInt16>("ir_omni", 30);
+  mode_pub_           = nh_->create_publisher<create_msgs::msg::Mode>("mode", 30);
+  bumper_pub_         = nh_->create_publisher<create_msgs::msg::Bumper>("bumper", 30);
+  wheeldrop_pub_      = nh_->create_publisher<std_msgs::msg::Empty>("wheeldrop", 30);
+  wheel_joint_pub_    = nh_->create_publisher<sensor_msgs::msg::JointState>("joint_states", 10);
 
-  tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(nh);
+  tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(nh_);
 
   /*
   // Setup diagnostics
@@ -182,7 +183,7 @@ void CreateDriver::cmdVelCallback(const geometry_msgs::msg::Twist & msg)
 {
   RCLCPP_INFO(nh_->get_logger(), "[CREATE] GNEUGNEU");
   robot_->drive(msg.linear.x, msg.angular.z);
-  last_cmd_vel_time_ = rclcpp::Clock().now();
+  //last_cmd_vel_time_ = rclcpp::Clock().now();
 }
 
 void CreateDriver::debrisLEDCallback(const std_msgs::msg::Bool& msg)
